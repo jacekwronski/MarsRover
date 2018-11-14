@@ -22,5 +22,19 @@ namespace MarsRover.Test
             Assert.AreEqual(rover.Position.Y, 0);
             Assert.AreEqual(rover.Direction, "E");
         }
+
+        [TestMethod]
+        public void MarsRoverTest_InitialPosition00E_MoveForward_FinalPosition10E()
+        {
+             Rover rover = new RoverBuilder()
+                                    .WithInitialStateLeftBottomEast()
+                                    .Build();
+
+            rover.MoveForward();
+
+            Assert.AreEqual(rover.Position.X, 1);
+            Assert.AreEqual(rover.Position.Y, 0);
+            Assert.AreEqual(rover.Direction, "E");            
+        }
     }
 }

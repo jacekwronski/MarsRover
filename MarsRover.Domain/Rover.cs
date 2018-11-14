@@ -14,5 +14,21 @@ namespace MarsRover.Domain
             Position = new GridPoint(x, y);
             this.Direction = direction;
         }
+
+        public void MoveForward()
+        {
+            int x = Position.X;
+            int y = Position.Y;
+
+            switch (this.Direction)
+            {
+                case "E":
+                    x++;
+                break;
+            }
+
+            this.Position = new GridPoint(x, y);
+
+        }
     }
 }
