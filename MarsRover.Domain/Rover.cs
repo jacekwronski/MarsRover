@@ -5,11 +5,11 @@ namespace MarsRover.Domain
     public class Rover
     {
         public GridPoint Position { get; protected set;}
-        public string Direction { get; protected set; }
+        public Direction Direction { get; protected set; }
 
         public Rover(){ }
 
-        public void Initialize(int x, int y, string direction)
+        public void Initialize(int x, int y, Direction direction)
         {
             Position = new GridPoint(x, y);
             this.Direction = direction;
@@ -22,13 +22,21 @@ namespace MarsRover.Domain
 
             switch (this.Direction)
             {
-                case "E":
+                case Direction.East:
                     x++;
+                break;
+                case Direction.North:
+                    y++;
+                break;
+                case Direction.West:
+                    x--;
+                break;
+                case Direction.South:
+                    y--;
                 break;
             }
 
             this.Position = new GridPoint(x, y);
-
         }
     }
 }
