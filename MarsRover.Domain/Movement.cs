@@ -9,8 +9,7 @@ namespace  MarsRover.Domain
             { MovementEnum.Forward, 1 },
             { MovementEnum.Backward, -1 },
             { MovementEnum.Left, 1 },
-            { MovementEnum.Right, 1 }
+            { MovementEnum.Right, 1 }       
         };  
-
     }
 }

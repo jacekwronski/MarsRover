@@ -25,6 +25,30 @@ namespace MarsRover.Domain
             this.Position = CalculateGridPoint(MovementEnum.Backward);
         }
 
+        public void MoveLeft() 
+        {
+            MovementEnum movementEnum = MovementEnum.Left;
+
+            this.Position = CalculateGridPoint(movementEnum);
+            this.Direction = CalculateDirection(movementEnum);
+        }
+
+        private Direction CalculateDirection(MovementEnum movement)
+        {
+            Direction direction = Direction.East;
+
+            if(this.Direction == Direction.East && movement == MovementEnum.Left)
+                direction = Direction.North;
+            else if(this.Direction == Direction.West && movement == MovementEnum.Left)
+                direction = Direction.South;
+            else if(this.Direction == Direction.North && movement == MovementEnum.Left)
+                direction = Direction.West;
+            else if(this.Direction == Direction.South && movement == MovementEnum.Left)
+                direction = Direction.East;
+
+            return direction;
+        }
+
         private GridPoint CalculateGridPoint(MovementEnum movement)
         {
             int x = Position.X;
@@ -35,15 +59,27 @@ namespace MarsRover.Domain
             switch (this.Direction)
             {
                 case Direction.East:
+                if(movement == MovementEnum.Left)
+                    y++;
+                else
                     x+=increment;
                 break;
                 case Direction.North:
+                if(movement == MovementEnum.Left)
+                    x--;
+                else
                     y+=increment;
                 break;
                 case Direction.West:
+                 if(movement == MovementEnum.Left)
+                    y--;
+                else
                     x-=increment;
                 break;
                 case Direction.South:
+                 if(movement == MovementEnum.Left)
+                    x++;
+                else
                     y-=increment;
                 break;
             }
