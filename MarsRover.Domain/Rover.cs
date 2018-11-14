@@ -17,26 +17,40 @@ namespace MarsRover.Domain
 
         public void MoveForward()
         {
+            this.Position = CalculateGridPoint(MovementEnum.Forward);
+        }
+
+        public void MoveBackward()
+        {
+            this.Position = CalculateGridPoint(MovementEnum.Backward);
+        }
+
+        private GridPoint CalculateGridPoint(MovementEnum movement)
+        {
             int x = Position.X;
             int y = Position.Y;
+
+            int increment = Movement.Movements[movement];
 
             switch (this.Direction)
             {
                 case Direction.East:
-                    x++;
+                    x+=increment;
                 break;
                 case Direction.North:
-                    y++;
+                    y+=increment;
                 break;
                 case Direction.West:
-                    x--;
+                    x-=increment;
                 break;
                 case Direction.South:
-                    y--;
+                    y-=increment;
                 break;
             }
 
-            this.Position = new GridPoint(x, y);
+            var position = new GridPoint(x, y);
+
+            return position;
         }
     }
 }

@@ -48,6 +48,18 @@ namespace MarsRover.Test
             return this;
         }
 
+        public RoverBuilder WithInitialDirectionEast()
+        {
+            this.direction = Direction.East;
+            return this;
+        }
+
+        public RoverBuilder WithInitialDirectionNorth()
+        {
+            this.direction = Direction.North;
+            return this;
+        }
+
         public RoverBuilder WithInitialPosition(int x, int y)
         {
             this.x = x;

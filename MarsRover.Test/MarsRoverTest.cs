@@ -80,5 +80,65 @@ namespace MarsRover.Test
             Assert.AreEqual(rover.Position.Y, 1);
             Assert.AreEqual(rover.Direction, Direction.South);            
         }
+
+        [TestMethod]
+        public void MarsRoverTest_InitialPosition22E_MoveBackward_FinalPosition12E()
+        {
+             Rover rover = new RoverBuilder()
+                                    .WithInitialDirectionEast()
+                                    .WithInitialPosition(2,2)
+                                    .Build();
+
+            rover.MoveBackward();
+
+            Assert.AreEqual(rover.Position.X, 1);
+            Assert.AreEqual(rover.Position.Y, 2);
+            Assert.AreEqual(rover.Direction, Direction.East);            
+        }
+
+        [TestMethod]
+        public void MarsRoverTest_InitialPosition22W_MoveBackward_FinalPosition32W()
+        {
+             Rover rover = new RoverBuilder()
+                                    .WithInitialDirectionWest()
+                                    .WithInitialPosition(2,2)
+                                    .Build();
+
+            rover.MoveBackward();
+
+            Assert.AreEqual(rover.Position.X, 3);
+            Assert.AreEqual(rover.Position.Y, 2);
+            Assert.AreEqual(rover.Direction, Direction.West);            
+        }
+
+        [TestMethod]
+        public void MarsRoverTest_InitialPosition22N_MoveBackward_FinalPosition21N()
+        {
+             Rover rover = new RoverBuilder()
+                                    .WithInitialDirectionNorth()
+                                    .WithInitialPosition(2,2)
+                                    .Build();
+
+            rover.MoveBackward();
+
+            Assert.AreEqual(rover.Position.X, 2);
+            Assert.AreEqual(rover.Position.Y, 1);
+            Assert.AreEqual(rover.Direction, Direction.North);            
+        }
+
+        [TestMethod]
+        public void MarsRoverTest_InitialPosition22S_MoveBackward_FinalPosition23S()
+        {
+             Rover rover = new RoverBuilder()
+                                    .WithInitialDirectionSouth()
+                                    .WithInitialPosition(2,2)
+                                    .Build();
+
+            rover.MoveBackward();
+
+            Assert.AreEqual(rover.Position.X, 2);
+            Assert.AreEqual(rover.Position.Y, 3);
+            Assert.AreEqual(rover.Direction, Direction.South);            
+        }
     }
 }
