@@ -1,8 +1,7 @@
 namespace MarsRover.Domain
 {
-    public enum Direction
+    public enum DirectionEnum
     {
-        Null = 0,
         North = 1,
         South = 2,
         East = 3,

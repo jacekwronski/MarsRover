@@ -11,7 +11,7 @@ namespace MarsRover.Test
         private int x = 0;
         private int y = 0;
 
-        private Direction direction = Direction.East;
+        private DirectionEnum direction = DirectionEnum.East;
         public Rover Build()
         {
             rover.Initialize(x, y, direction);
@@ -22,7 +22,7 @@ namespace MarsRover.Test
         {
             this.x = 0;
             this.y = 0;
-            this.direction = Direction.East;
+            this.direction = DirectionEnum.East;
 
             return this;
         }
@@ -31,32 +31,32 @@ namespace MarsRover.Test
         {
             this.x = 0;
             this.y = 0;
-            this.direction = Direction.North;
+            this.direction = DirectionEnum.North;
 
             return this;
         }
 
         public RoverBuilder WithInitialDirectionWest()
         {
-            this.direction = Direction.West;
+            this.direction = DirectionEnum.West;
             return this;
         }
 
         public RoverBuilder WithInitialDirectionSouth()
         {
-            this.direction = Direction.South;
+            this.direction = DirectionEnum.South;
             return this;
         }
 
         public RoverBuilder WithInitialDirectionEast()
         {
-            this.direction = Direction.East;
+            this.direction = DirectionEnum.East;
             return this;
         }
 
         public RoverBuilder WithInitialDirectionNorth()
         {
-            this.direction = Direction.North;
+            this.direction = DirectionEnum.North;
             return this;
         }
 

@@ -4,77 +4,72 @@ namespace MarsRover.Domain
 {
     public class Rover
     {
-        public GridPoint Position { get; protected set;}
-        public Direction Direction { get; protected set; }
-
+        public Position Position { get; protected set;}
         public Rover(){ }
 
-        public void Initialize(int x, int y, Direction direction)
+        public void Initialize(int x, int y, DirectionEnum direction)
         {
-            Position = new GridPoint(x, y);
-            this.Direction = direction;
+            this.Position = new Position(x, y, direction);
         }
 
         public void MoveForward()
         {
-            this.Position = CalculateGridPoint(MovementEnum.Forward);
+            this.Position = CalculatePositionByMovement(MovementEnum.Forward);
         }
 
         public void MoveBackward()
         {
-            this.Position = CalculateGridPoint(MovementEnum.Backward);
+            this.Position = CalculatePositionByMovement(MovementEnum.Backward);
         }
 
         public void MoveLeft() 
         {
             MovementEnum movementEnum = MovementEnum.Left;
-
-            this.Position = CalculateGridPoint(movementEnum);
-            this.Direction = CalculateDirection(movementEnum);
+            this.Position = CalculatePositionByMovement(movementEnum);
         }
 
         public void MoveRight()
         {
             MovementEnum movementEnum = MovementEnum.Right;
-
-            this.Position = CalculateGridPoint(movementEnum);
-            this.Direction = CalculateDirection(movementEnum);
+            this.Position = CalculatePositionByMovement(movementEnum);
         }
 
-        private Direction CalculateDirection(MovementEnum movement)
+        private DirectionEnum CalculateDirection(MovementEnum movement)
         {
-            Direction direction = Direction.Null;
+            DirectionEnum direction;
 
-            if(this.Direction == Direction.East && movement == MovementEnum.Left)
-                direction = Direction.North;
-            else if(this.Direction == Direction.West && movement == MovementEnum.Left)
-                direction = Direction.South;
-            else if(this.Direction == Direction.North && movement == MovementEnum.Left)
-                direction = Direction.West;
-            else if(this.Direction == Direction.South && movement == MovementEnum.Left)
-                direction = Direction.East;
-            else if(this.Direction == Direction.East && movement == MovementEnum.Right)
-                direction = Direction.South;
-            else if(this.Direction == Direction.West && movement == MovementEnum.Right)
-                direction = Direction.North;
-             else if(this.Direction == Direction.North && movement == MovementEnum.Right)
-                direction = Direction.East;
-            else if(this.Direction == Direction.South && movement == MovementEnum.Right)
-                direction = Direction.West;
+            if(this.Position.Direction == DirectionEnum.East && movement == MovementEnum.Left)
+                direction = DirectionEnum.North;
+            else if(this.Position.Direction == DirectionEnum.West && movement == MovementEnum.Left)
+                direction = DirectionEnum.South;
+            else if(this.Position.Direction == DirectionEnum.North && movement == MovementEnum.Left)
+                direction = DirectionEnum.West;
+            else if(this.Position.Direction == DirectionEnum.South && movement == MovementEnum.Left)
+                direction = DirectionEnum.East;
+            else if(this.Position.Direction == DirectionEnum.East && movement == MovementEnum.Right)
+                direction = DirectionEnum.South;
+            else if(this.Position.Direction == DirectionEnum.West && movement == MovementEnum.Right)
+                direction = DirectionEnum.North;
+            else if(this.Position.Direction == DirectionEnum.North && movement == MovementEnum.Right)
+                direction = DirectionEnum.East;
+            else if(this.Position.Direction == DirectionEnum.South && movement == MovementEnum.Right)
+                direction = DirectionEnum.West;
+            else
+                direction = this.Position.Direction;
 
             return direction;
         }
 
-        private GridPoint CalculateGridPoint(MovementEnum movement)
+        private Position CalculatePositionByMovement(MovementEnum movement)
         {
             int x = Position.X;
             int y = Position.Y;
 
             int increment = Movement.Movements[movement];
 
-            switch (this.Direction)
+            switch (this.Position.Direction)
             {
-                case Direction.East:
+                case DirectionEnum.East:
                 if(movement == MovementEnum.Left)
                     y++;
                 else if(movement == MovementEnum.Right)
@@ -82,7 +77,7 @@ namespace MarsRover.Domain
                 else
                     x+=increment;
                 break;
-                case Direction.North:
+                case DirectionEnum.North:
                 if(movement == MovementEnum.Left)
                     x--;
                 else if(movement == MovementEnum.Right)
@@ -90,7 +85,7 @@ namespace MarsRover.Domain
                 else
                     y+=increment;
                 break;
-                case Direction.West:
+                case DirectionEnum.West:
                 if(movement == MovementEnum.Left)
                     y--;
                 else if(movement == MovementEnum.Right)
@@ -98,8 +93,8 @@ namespace MarsRover.Domain
                 else
                     x-=increment;
                 break;
-                case Direction.South:
-                 if(movement == MovementEnum.Left)
+                case DirectionEnum.South:
+                if(movement == MovementEnum.Left)
                     x++;
                 else if(movement == MovementEnum.Right)
                     x--;
@@ -108,8 +103,9 @@ namespace MarsRover.Domain
                 break;
             }
 
-            var position = new GridPoint(x, y);
+            DirectionEnum direction = CalculateDirection(movement);
 
+            var position = new Position(x, y, direction);
             return position;
         }
     }

@@ -16,11 +16,11 @@ namespace MarsRover.Test
         public void MarsRoverTest_InitializPosition0_0_E_InitialiPositionPoint0_0_Direction_E()
         {
             Rover rover = new Rover();
-            rover.Initialize(0, 0, Direction.East);
+            rover.Initialize(0, 0, DirectionEnum.East);
 
-            Assert.AreEqual(rover.Position.X, 0);
-            Assert.AreEqual(rover.Position.Y, 0);
-            Assert.AreEqual(rover.Direction, Direction.East);
+            Assert.AreEqual(0, rover.Position.X);
+            Assert.AreEqual(0, rover.Position.Y);
+            Assert.AreEqual(DirectionEnum.East, rover.Position.Direction);
         }
 
         [TestMethod]
@@ -32,9 +32,9 @@ namespace MarsRover.Test
 
             rover.MoveForward();
 
-            Assert.AreEqual(rover.Position.X, 1);
-            Assert.AreEqual(rover.Position.Y, 0);
-            Assert.AreEqual(rover.Direction, Direction.East);            
+            Assert.AreEqual(1, rover.Position.X);
+            Assert.AreEqual(0, rover.Position.Y);
+            Assert.AreEqual(DirectionEnum.East, rover.Position.Direction);            
         }
 
         [TestMethod]
@@ -48,7 +48,7 @@ namespace MarsRover.Test
 
             Assert.AreEqual(rover.Position.X, 0);
             Assert.AreEqual(rover.Position.Y, 1);
-            Assert.AreEqual(rover.Direction, Direction.North);            
+            Assert.AreEqual(rover.Position.Direction, DirectionEnum.North);            
         }
 
         [TestMethod]
@@ -63,7 +63,7 @@ namespace MarsRover.Test
 
             Assert.AreEqual(rover.Position.X, 1);
             Assert.AreEqual(rover.Position.Y, 2);
-            Assert.AreEqual(rover.Direction, Direction.West);            
+            Assert.AreEqual(rover.Position.Direction, DirectionEnum.West);            
         }
 
          [TestMethod]
@@ -78,7 +78,7 @@ namespace MarsRover.Test
 
             Assert.AreEqual(rover.Position.X, 2);
             Assert.AreEqual(rover.Position.Y, 1);
-            Assert.AreEqual(rover.Direction, Direction.South);            
+            Assert.AreEqual(rover.Position.Direction, DirectionEnum.South);            
         }
 
         [TestMethod]
@@ -93,7 +93,7 @@ namespace MarsRover.Test
 
             Assert.AreEqual(rover.Position.X, 1);
             Assert.AreEqual(rover.Position.Y, 2);
-            Assert.AreEqual(rover.Direction, Direction.East);            
+            Assert.AreEqual(rover.Position.Direction, DirectionEnum.East);            
         }
 
         [TestMethod]
@@ -108,7 +108,7 @@ namespace MarsRover.Test
 
             Assert.AreEqual(rover.Position.X, 3);
             Assert.AreEqual(rover.Position.Y, 2);
-            Assert.AreEqual(rover.Direction, Direction.West);            
+            Assert.AreEqual(rover.Position.Direction, DirectionEnum.West);            
         }
 
         [TestMethod]
@@ -123,7 +123,7 @@ namespace MarsRover.Test
 
             Assert.AreEqual(rover.Position.X, 2);
             Assert.AreEqual(rover.Position.Y, 1);
-            Assert.AreEqual(rover.Direction, Direction.North);            
+            Assert.AreEqual(rover.Position.Direction, DirectionEnum.North);            
         }
 
         [TestMethod]
@@ -138,7 +138,7 @@ namespace MarsRover.Test
 
             Assert.AreEqual(rover.Position.X, 2);
             Assert.AreEqual(rover.Position.Y, 3);
-            Assert.AreEqual(rover.Direction, Direction.South);            
+            Assert.AreEqual(rover.Position.Direction, DirectionEnum.South);            
         }
 
         [TestMethod]
@@ -153,7 +153,7 @@ namespace MarsRover.Test
 
             Assert.AreEqual(rover.Position.X, 2);
             Assert.AreEqual(rover.Position.Y, 3);
-            Assert.AreEqual(rover.Direction, Direction.North);            
+            Assert.AreEqual(rover.Position.Direction, DirectionEnum.North);            
         }
 
         [TestMethod]
@@ -168,7 +168,7 @@ namespace MarsRover.Test
 
             Assert.AreEqual(rover.Position.X, 2);
             Assert.AreEqual(rover.Position.Y, 1);
-            Assert.AreEqual(rover.Direction, Direction.South);            
+            Assert.AreEqual(rover.Position.Direction, DirectionEnum.South);            
         }
 
         [TestMethod]
@@ -183,7 +183,7 @@ namespace MarsRover.Test
 
             Assert.AreEqual(1, rover.Position.X);
             Assert.AreEqual(2, rover.Position.Y);
-            Assert.AreEqual(Direction.West, rover.Direction);            
+            Assert.AreEqual(DirectionEnum.West, rover.Position.Direction);            
         }
 
         [TestMethod]
@@ -198,7 +198,7 @@ namespace MarsRover.Test
 
             Assert.AreEqual(3, rover.Position.X);
             Assert.AreEqual(2, rover.Position.Y);
-            Assert.AreEqual(Direction.East, rover.Direction);            
+            Assert.AreEqual(DirectionEnum.East, rover.Position.Direction);            
         }
 
         [TestMethod]
@@ -213,7 +213,7 @@ namespace MarsRover.Test
 
             Assert.AreEqual(2, rover.Position.X);
             Assert.AreEqual(1, rover.Position.Y);
-            Assert.AreEqual(Direction.South, rover.Direction);            
+            Assert.AreEqual(DirectionEnum.South, rover.Position.Direction);            
         }
 
         [TestMethod]
@@ -228,7 +228,7 @@ namespace MarsRover.Test
 
             Assert.AreEqual(2, rover.Position.X);
             Assert.AreEqual(3, rover.Position.Y);
-            Assert.AreEqual(Direction.North, rover.Direction);            
+            Assert.AreEqual(DirectionEnum.North, rover.Position.Direction);            
         }
 
         [TestMethod]
@@ -243,7 +243,7 @@ namespace MarsRover.Test
 
             Assert.AreEqual(3, rover.Position.X);
             Assert.AreEqual(2, rover.Position.Y);
-            Assert.AreEqual(Direction.East, rover.Direction);            
+            Assert.AreEqual(DirectionEnum.East, rover.Position.Direction);            
         }
 
         [TestMethod]
@@ -258,7 +258,7 @@ namespace MarsRover.Test
 
             Assert.AreEqual(1, rover.Position.X);
             Assert.AreEqual(2, rover.Position.Y);
-            Assert.AreEqual(Direction.West, rover.Direction);            
+            Assert.AreEqual(DirectionEnum.West, rover.Position.Direction);            
         }
     }
 }
