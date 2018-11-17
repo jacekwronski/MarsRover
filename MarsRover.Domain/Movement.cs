@@ -98,13 +98,9 @@ namespace MarsRover.Domain
             }
 
             DirectionEnum direction = CalculateDirection(movement, position);
-           
-            y = RecalculateYEdges(y);
 
-            if (this.world.GetLeftEdgeXCoordinates() > x)
-                x = this.world.GetRightEdgeXCoordinates();
-            if (this.world.GetRightEdgeXCoordinates() < x)
-                x = this.world.GetLeftEdgeXCoordinates();
+            y = RecalculateYEdges(y);
+            x = RecalculateXEdges(x);
 
             if (this.world.HasObstacleOnCoordinates(x, y))
                 throw new System.Exception("Obstacle detected!!!!");
@@ -121,6 +117,16 @@ namespace MarsRover.Domain
                 y = this.world.GetTopEdgeYCoordinates();
 
             return y;
+        }
+
+        private int RecalculateXEdges(int x)
+        {
+            if (this.world.GetLeftEdgeXCoordinates() > x)
+                x = this.world.GetRightEdgeXCoordinates();
+            if (this.world.GetRightEdgeXCoordinates() < x)
+                x = this.world.GetLeftEdgeXCoordinates();
+
+            return x;
         }
 
     }
