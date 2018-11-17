@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace MarsRover.Domain
@@ -11,6 +12,31 @@ namespace MarsRover.Domain
             { MovementEnum.Left, 1 },
             { MovementEnum.Right, 1 }
         };
+
+
+        public static Dictionary<DirectionEnum, Dictionary<MovementEnum, Func<Position, Position>>> MovementsActuator =
+                    new Dictionary<DirectionEnum, Dictionary<MovementEnum, Func<Position, Position>>>()
+        {
+            {
+                DirectionEnum.North, new Dictionary<MovementEnum, Func<Position, Position>>()
+                {
+                    { MovementEnum.Forward, (actualPos) => new Position(actualPos.X, actualPos.Y+1, DirectionEnum.North) },
+                    { MovementEnum.Backward, (actualPos) => new Position(actualPos.X, actualPos.Y-1, DirectionEnum.North) },
+                    { MovementEnum.Left, (actualPos) => new Position(actualPos.X-1, actualPos.Y, DirectionEnum.West) },
+                    { MovementEnum.Right, (actualPos) => new Position(actualPos.X+1, actualPos.Y, DirectionEnum.East) }
+                }
+            },
+            {
+                DirectionEnum.East, new Dictionary<MovementEnum, Func<Position, Position>>()
+                {
+                    { MovementEnum.Forward, (actualPos) => new Position(actualPos.X + 1, actualPos.Y, DirectionEnum.East) },
+                    { MovementEnum.Backward, (actualPos) => new Position(actualPos.X - 1, actualPos.Y, DirectionEnum.East) },
+                    { MovementEnum.Left, (actualPos) => new Position(actualPos.X, actualPos.Y + 1, DirectionEnum.North) },
+                    { MovementEnum.Right, (actualPos) => new Position(actualPos.X, actualPos.Y - 1, DirectionEnum.South) }
+                }
+            }
+        };
+
         private readonly Position position;
         private readonly MovementEnum movementType;
 
@@ -61,23 +87,16 @@ namespace MarsRover.Domain
 
             int increment = Movement.Movements[movement];
 
+            Position newPosition = null;
+
+            if (MovementsActuator.ContainsKey(position.Direction) && MovementsActuator[position.Direction].ContainsKey(movement))
+                newPosition = MovementsActuator[position.Direction][movement].Invoke(position);
+
             switch (position.Direction)
             {
                 case DirectionEnum.East:
-                    if (movement == MovementEnum.Left)
-                        y++;
-                    else if (movement == MovementEnum.Right)
-                        y--;
-                    else
-                        x += increment;
-                    break;
+                   break;
                 case DirectionEnum.North:
-                    if (movement == MovementEnum.Left)
-                        x--;
-                    else if (movement == MovementEnum.Right)
-                        x++;
-                    else
-                        y += increment;
                     break;
                 case DirectionEnum.West:
                     if (movement == MovementEnum.Left)
@@ -97,16 +116,27 @@ namespace MarsRover.Domain
                     break;
             }
 
-            DirectionEnum direction = CalculateDirection(movement, position);
-
+            if (newPosition != null)
+            {
+                x = newPosition.X;
+                y = newPosition.Y;
+            }
             y = RecalculateYEdges(y);
             x = RecalculateXEdges(x);
 
+            ValidateMove(x, y);
+
+            DirectionEnum direction = CalculateDirection(movement, position);
+
+            newPosition = new Position(x, y, direction);
+
+            return newPosition;
+        }
+
+        private void ValidateMove(int x, int y)
+        {
             if (this.world.HasObstacleOnCoordinates(x, y))
                 throw new System.Exception("Obstacle detected!!!!");
-
-            var newPosition = new Position(x, y, direction);
-            return newPosition;
         }
 
         private int RecalculateYEdges(int y)
