@@ -5,37 +5,7 @@ namespace MarsRover.Domain
 {
     public class Movement
     {
-        public static Dictionary<MovementEnum, int> Movements = new Dictionary<MovementEnum, int>()
-        {
-            { MovementEnum.Forward, 1 },
-            { MovementEnum.Backward, -1 },
-            { MovementEnum.Left, 1 },
-            { MovementEnum.Right, 1 }
-        };
-
-
-        public static Dictionary<DirectionEnum, Dictionary<MovementEnum, Func<Position, Position>>> MovementsActuator =
-                    new Dictionary<DirectionEnum, Dictionary<MovementEnum, Func<Position, Position>>>()
-        {
-            {
-                DirectionEnum.North, new Dictionary<MovementEnum, Func<Position, Position>>()
-                {
-                    { MovementEnum.Forward, (actualPos) => new Position(actualPos.X, actualPos.Y+1, DirectionEnum.North) },
-                    { MovementEnum.Backward, (actualPos) => new Position(actualPos.X, actualPos.Y-1, DirectionEnum.North) },
-                    { MovementEnum.Left, (actualPos) => new Position(actualPos.X-1, actualPos.Y, DirectionEnum.West) },
-                    { MovementEnum.Right, (actualPos) => new Position(actualPos.X+1, actualPos.Y, DirectionEnum.East) }
-                }
-            },
-            {
-                DirectionEnum.East, new Dictionary<MovementEnum, Func<Position, Position>>()
-                {
-                    { MovementEnum.Forward, (actualPos) => new Position(actualPos.X + 1, actualPos.Y, DirectionEnum.East) },
-                    { MovementEnum.Backward, (actualPos) => new Position(actualPos.X - 1, actualPos.Y, DirectionEnum.East) },
-                    { MovementEnum.Left, (actualPos) => new Position(actualPos.X, actualPos.Y + 1, DirectionEnum.North) },
-                    { MovementEnum.Right, (actualPos) => new Position(actualPos.X, actualPos.Y - 1, DirectionEnum.South) }
-                }
-            }
-        };
+        public readonly Dictionary<DirectionEnum, Dictionary<MovementEnum, Func<Position, Position>>> MovementsActuator;
 
         private readonly Position position;
         private readonly MovementEnum movementType;
@@ -46,7 +16,53 @@ namespace MarsRover.Domain
             this.position = position;
             this.movementType = movementType;
             this.world = world;
+
+            this.MovementsActuator = GenerateMovementActuator();
         }
+
+        private Dictionary<DirectionEnum, Dictionary<MovementEnum, Func<Position, Position>>> GenerateMovementActuator()
+        {
+            return new Dictionary<DirectionEnum, Dictionary<MovementEnum, Func<Position, Position>>>()
+            {
+                {
+                    DirectionEnum.North, new Dictionary<MovementEnum, Func<Position, Position>>()
+                    {
+                        { MovementEnum.Forward, (actualPos) => { return CalculatePosition(actualPos.X, actualPos.Y+1, DirectionEnum.North);} },
+                        { MovementEnum.Backward, (actualPos) => { return CalculatePosition(actualPos.X, actualPos.Y-1, DirectionEnum.North);} },
+                        { MovementEnum.Left, (actualPos) => { return CalculatePosition(actualPos.X-1, actualPos.Y, DirectionEnum.West);} },
+                        { MovementEnum.Right, (actualPos) => { return CalculatePosition(actualPos.X+1, actualPos.Y, DirectionEnum.East); } }
+                    }
+            },
+                {
+                    DirectionEnum.East, new Dictionary<MovementEnum, Func<Position, Position>>()
+                    {
+                        { MovementEnum.Forward, (actualPos) => { return CalculatePosition(actualPos.X + 1, actualPos.Y, DirectionEnum.East); } },
+                        { MovementEnum.Backward, (actualPos) => { return CalculatePosition(actualPos.X - 1, actualPos.Y, DirectionEnum.East);} },
+                        { MovementEnum.Left, (actualPos) => { return CalculatePosition(actualPos.X, actualPos.Y + 1, DirectionEnum.North);} },
+                        { MovementEnum.Right, (actualPos) => { return CalculatePosition(actualPos.X, actualPos.Y - 1, DirectionEnum.South); } }
+                    }
+                },
+                {
+                    DirectionEnum.South, new Dictionary<MovementEnum, Func<Position, Position>>()
+                    {
+                        { MovementEnum.Forward, (actualPos) => { return CalculatePosition(actualPos.X, actualPos.Y - 1, DirectionEnum.South); } },
+                        { MovementEnum.Backward, (actualPos) => { return CalculatePosition(actualPos.X, actualPos.Y + 1, DirectionEnum.South); } },
+                        { MovementEnum.Left, (actualPos) => { return CalculatePosition(actualPos.X + 1, actualPos.Y, DirectionEnum.East); } },
+                        { MovementEnum.Right, (actualPos) => { return CalculatePosition(actualPos.X - 1, actualPos.Y, DirectionEnum.West); } }
+                    }
+                },
+                {
+                    DirectionEnum.West, new Dictionary<MovementEnum, Func<Position, Position>>()
+                    {
+                        { MovementEnum.Forward, (actualPos) => { return CalculatePosition(actualPos.X - 1, actualPos.Y, DirectionEnum.West); } },
+                        { MovementEnum.Backward, (actualPos) => { return CalculatePosition(actualPos.X + 1, actualPos.Y, DirectionEnum.West); } },
+                        { MovementEnum.Left, (actualPos) => { return CalculatePosition(actualPos.X, actualPos.Y - 1, DirectionEnum.South); } },
+                        { MovementEnum.Right, (actualPos) => { return CalculatePosition(actualPos.X, actualPos.Y + 1, DirectionEnum.North); } }
+                    }
+                }
+            };
+        }
+
 
         public Position Move()
         {
@@ -54,81 +70,24 @@ namespace MarsRover.Domain
             return newPosition;
         }
 
-        private DirectionEnum CalculateDirection(MovementEnum movement, Position position)
-        {
-            DirectionEnum direction;
-
-            if (position.Direction == DirectionEnum.East && movement == MovementEnum.Left)
-                direction = DirectionEnum.North;
-            else if (position.Direction == DirectionEnum.West && movement == MovementEnum.Left)
-                direction = DirectionEnum.South;
-            else if (position.Direction == DirectionEnum.North && movement == MovementEnum.Left)
-                direction = DirectionEnum.West;
-            else if (position.Direction == DirectionEnum.South && movement == MovementEnum.Left)
-                direction = DirectionEnum.East;
-            else if (position.Direction == DirectionEnum.East && movement == MovementEnum.Right)
-                direction = DirectionEnum.South;
-            else if (position.Direction == DirectionEnum.West && movement == MovementEnum.Right)
-                direction = DirectionEnum.North;
-            else if (position.Direction == DirectionEnum.North && movement == MovementEnum.Right)
-                direction = DirectionEnum.East;
-            else if (position.Direction == DirectionEnum.South && movement == MovementEnum.Right)
-                direction = DirectionEnum.West;
-            else
-                direction = position.Direction;
-
-            return direction;
-        }
-
         private Position CalculatePositionByMovement(MovementEnum movement, Position position)
         {
-            int x = position.X;
-            int y = position.Y;
-
-            int increment = Movement.Movements[movement];
-
             Position newPosition = null;
 
             if (MovementsActuator.ContainsKey(position.Direction) && MovementsActuator[position.Direction].ContainsKey(movement))
                 newPosition = MovementsActuator[position.Direction][movement].Invoke(position);
 
-            switch (position.Direction)
-            {
-                case DirectionEnum.East:
-                   break;
-                case DirectionEnum.North:
-                    break;
-                case DirectionEnum.West:
-                    if (movement == MovementEnum.Left)
-                        y--;
-                    else if (movement == MovementEnum.Right)
-                        y++;
-                    else
-                        x -= increment;
-                    break;
-                case DirectionEnum.South:
-                    if (movement == MovementEnum.Left)
-                        x++;
-                    else if (movement == MovementEnum.Right)
-                        x--;
-                    else
-                        y -= increment;
-                    break;
-            }
+            ValidateMove(newPosition.X, newPosition.Y);
 
-            if (newPosition != null)
-            {
-                x = newPosition.X;
-                y = newPosition.Y;
-            }
+            return newPosition;
+        }
+
+        private Position CalculatePosition(int x, int y, DirectionEnum direction)
+        {
             y = RecalculateYEdges(y);
             x = RecalculateXEdges(x);
 
-            ValidateMove(x, y);
-
-            DirectionEnum direction = CalculateDirection(movement, position);
-
-            newPosition = new Position(x, y, direction);
+            var newPosition = new Position(x, y, direction);
 
             return newPosition;
         }
