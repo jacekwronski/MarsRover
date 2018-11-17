@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace  MarsRover.Domain
+namespace MarsRover.Domain
 {
     public class Movement
     {
@@ -9,14 +9,17 @@ namespace  MarsRover.Domain
             { MovementEnum.Forward, 1 },
             { MovementEnum.Backward, -1 },
             { MovementEnum.Left, 1 },
-            { MovementEnum.Right, 1 }       
+            { MovementEnum.Right, 1 }
         };
         private readonly Position position;
         private readonly MovementEnum movementType;
-        public Movement(Position position, MovementEnum movementType) 
+
+        private readonly IWorld world;
+        public Movement(Position position, MovementEnum movementType, IWorld world)
         {
             this.position = position;
             this.movementType = movementType;
+            this.world = world;
         }
 
         public Position Move()
@@ -29,21 +32,21 @@ namespace  MarsRover.Domain
         {
             DirectionEnum direction;
 
-            if(position.Direction == DirectionEnum.East && movement == MovementEnum.Left)
+            if (position.Direction == DirectionEnum.East && movement == MovementEnum.Left)
                 direction = DirectionEnum.North;
-            else if(position.Direction == DirectionEnum.West && movement == MovementEnum.Left)
+            else if (position.Direction == DirectionEnum.West && movement == MovementEnum.Left)
                 direction = DirectionEnum.South;
-            else if(position.Direction == DirectionEnum.North && movement == MovementEnum.Left)
+            else if (position.Direction == DirectionEnum.North && movement == MovementEnum.Left)
                 direction = DirectionEnum.West;
-            else if(position.Direction == DirectionEnum.South && movement == MovementEnum.Left)
+            else if (position.Direction == DirectionEnum.South && movement == MovementEnum.Left)
                 direction = DirectionEnum.East;
-            else if(position.Direction == DirectionEnum.East && movement == MovementEnum.Right)
+            else if (position.Direction == DirectionEnum.East && movement == MovementEnum.Right)
                 direction = DirectionEnum.South;
-            else if(position.Direction == DirectionEnum.West && movement == MovementEnum.Right)
+            else if (position.Direction == DirectionEnum.West && movement == MovementEnum.Right)
                 direction = DirectionEnum.North;
-            else if(position.Direction == DirectionEnum.North && movement == MovementEnum.Right)
+            else if (position.Direction == DirectionEnum.North && movement == MovementEnum.Right)
                 direction = DirectionEnum.East;
-            else if(position.Direction == DirectionEnum.South && movement == MovementEnum.Right)
+            else if (position.Direction == DirectionEnum.South && movement == MovementEnum.Right)
                 direction = DirectionEnum.West;
             else
                 direction = position.Direction;
@@ -61,43 +64,63 @@ namespace  MarsRover.Domain
             switch (position.Direction)
             {
                 case DirectionEnum.East:
-                if(movement == MovementEnum.Left)
-                    y++;
-                else if(movement == MovementEnum.Right)
-                    y--;
-                else
-                    x+=increment;
-                break;
+                    if (movement == MovementEnum.Left)
+                        y++;
+                    else if (movement == MovementEnum.Right)
+                        y--;
+                    else
+                        x += increment;
+                    break;
                 case DirectionEnum.North:
-                if(movement == MovementEnum.Left)
-                    x--;
-                else if(movement == MovementEnum.Right)
-                    x++;
-                else
-                    y+=increment;
-                break;
+                    if (movement == MovementEnum.Left)
+                        x--;
+                    else if (movement == MovementEnum.Right)
+                        x++;
+                    else
+                        y += increment;
+                    break;
                 case DirectionEnum.West:
-                if(movement == MovementEnum.Left)
-                    y--;
-                else if(movement == MovementEnum.Right)
-                    y++;
-                else
-                    x-=increment;
-                break;
+                    if (movement == MovementEnum.Left)
+                        y--;
+                    else if (movement == MovementEnum.Right)
+                        y++;
+                    else
+                        x -= increment;
+                    break;
                 case DirectionEnum.South:
-                if(movement == MovementEnum.Left)
-                    x++;
-                else if(movement == MovementEnum.Right)
-                    x--;
-                else
-                    y-=increment;
-                break;
+                    if (movement == MovementEnum.Left)
+                        x++;
+                    else if (movement == MovementEnum.Right)
+                        x--;
+                    else
+                        y -= increment;
+                    break;
             }
 
             DirectionEnum direction = CalculateDirection(movement, position);
+           
+            y = RecalculateYEdges(y);
+
+            if (this.world.GetLeftEdgeXCoordinates() > x)
+                x = this.world.GetRightEdgeXCoordinates();
+            if (this.world.GetRightEdgeXCoordinates() < x)
+                x = this.world.GetLeftEdgeXCoordinates();
+
+            if (this.world.HasObstacleOnCoordinates(x, y))
+                throw new System.Exception("Obstacle detected!!!!");
 
             var newPosition = new Position(x, y, direction);
             return newPosition;
+        }
+
+        private int RecalculateYEdges(int y)
+        {
+            if (this.world.GetTopEdgeYCoordinates() < y)
+                y = this.world.GetBottomEdgeYCoordinates();
+            if (this.world.GetBottomEdgeYCoordinates() > y)
+                y = this.world.GetTopEdgeYCoordinates();
+
+            return y;
         }
 
     }
