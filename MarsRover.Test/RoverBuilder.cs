@@ -12,9 +12,11 @@ namespace MarsRover.Test
         private int y = 0;
 
         private DirectionEnum direction = DirectionEnum.East;
+
+        private IWorld world;
         public Rover Build()
         {
-            rover.Initialize(x, y, direction);
+            rover.Initialize(x, y, direction, world);
             return rover;
         }
 
@@ -64,6 +66,13 @@ namespace MarsRover.Test
         {
             this.x = x;
             this.y = y;
+            return this;
+        }
+
+        public RoverBuilder WithWorld(IWorld world) 
+        {
+            this.world = world;
+
             return this;
         }
 
