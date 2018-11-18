@@ -1,4 +1,5 @@
 using MarsRover.Domain;
+using NSubstitute;
 
 namespace MarsRover.Test
 {

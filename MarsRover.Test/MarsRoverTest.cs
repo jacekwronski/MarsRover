@@ -9,34 +9,6 @@ namespace MarsRover.Test
     [TestClass]
     public class MarsRoverTest
     {
-        private IWorld GetDefault5x5World()
-        {
-            var world = Substitute.For<IWorld>();
-
-            world.GetTopEdgeYCoordinates().Returns(4);
-            world.GetBottomEdgeYCoordinates().Returns(0);
-
-            world.GetLeftEdgeXCoordinates().Returns(0);
-            world.GetRightEdgeXCoordinates().Returns(4);
-
-            return world;
-        }
-
-        private IWorld Get4x4WorldWithObstacles()
-        {
-            var world = Substitute.For<IWorld>();
-
-            world.GetTopEdgeYCoordinates().Returns(4);
-            world.GetBottomEdgeYCoordinates().Returns(0);
-
-            world.GetLeftEdgeXCoordinates().Returns(0);
-            world.GetRightEdgeXCoordinates().Returns(4);
-
-            world.HasObstacleOnCoordinates(Arg.Is(1), Arg.Is(2)).Returns(true);
-
-            return world;
-        }
-
         [TestMethod]
         public void MarsRoverTest_CanInstantiateClass()
         {
@@ -48,7 +20,7 @@ namespace MarsRover.Test
         {
             Rover rover = new Rover();
 
-            IWorld world = GetDefault5x5World();
+            IWorld world = WorldBuilder.GetDefault5x5World();
             rover.Initialize(0, 0, DirectionEnum.East, world);
 
             Assert.AreEqual(0, rover.Position.X);
@@ -59,7 +31,7 @@ namespace MarsRover.Test
         [TestMethod]
         public void MarsRoverTest_InitialPosition00E_MoveForward_FinalPosition10E()
         {
-            IWorld world = GetDefault5x5World();
+            IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                    .WithWorld(world)
@@ -76,7 +48,7 @@ namespace MarsRover.Test
         [TestMethod]
         public void MarsRoverTest_InitialPosition00N_MoveForward_FinalPosition01N()
         {
-            IWorld world = GetDefault5x5World();
+            IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                    .WithWorld(world)
@@ -93,7 +65,7 @@ namespace MarsRover.Test
         [TestMethod]
         public void MarsRoverTest_InitialPosition22W_MoveForward_FinalPosition12W()
         {
-            IWorld world = GetDefault5x5World();
+            IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                    .WithWorld(world)
@@ -111,7 +83,7 @@ namespace MarsRover.Test
         [TestMethod]
         public void MarsRoverTest_InitialPosition22S_MoveForward_FinalPosition21S()
         {
-            IWorld world = GetDefault5x5World();
+            IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                    .WithWorld(world)
@@ -129,7 +101,7 @@ namespace MarsRover.Test
         [TestMethod]
         public void MarsRoverTest_InitialPosition22E_MoveBackward_FinalPosition12E()
         {
-            IWorld world = GetDefault5x5World();
+            IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                    .WithWorld(world)
@@ -147,7 +119,7 @@ namespace MarsRover.Test
         [TestMethod]
         public void MarsRoverTest_InitialPosition22W_MoveBackward_FinalPosition32W()
         {
-            IWorld world = GetDefault5x5World();
+            IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                    .WithWorld(world)
@@ -165,7 +137,7 @@ namespace MarsRover.Test
         [TestMethod]
         public void MarsRoverTest_InitialPosition22N_MoveBackward_FinalPosition21N()
         {
-            IWorld world = GetDefault5x5World();
+            IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                    .WithWorld(world)
@@ -183,7 +155,7 @@ namespace MarsRover.Test
         [TestMethod]
         public void MarsRoverTest_InitialPosition22S_MoveBackward_FinalPosition23S()
         {
-            IWorld world = GetDefault5x5World();
+            IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                    .WithWorld(world)
@@ -201,7 +173,7 @@ namespace MarsRover.Test
         [TestMethod]
         public void MarsRoverTest_InitialPosition22E_MoveLeft_FinalPosition23N()
         {
-            IWorld world = GetDefault5x5World();
+            IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                    .WithWorld(world)
@@ -219,7 +191,7 @@ namespace MarsRover.Test
         [TestMethod]
         public void MarsRoverTest_InitialPosition22W_MoveLeft_FinalPosition21S()
         {
-            IWorld world = GetDefault5x5World();
+            IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                    .WithWorld(world)
@@ -237,7 +209,7 @@ namespace MarsRover.Test
         [TestMethod]
         public void MarsRoverTest_InitialPosition22N_MoveLeft_FinalPosition12W()
         {
-            IWorld world = GetDefault5x5World();
+            IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                    .WithWorld(world)
@@ -255,7 +227,7 @@ namespace MarsRover.Test
         [TestMethod]
         public void MarsRoverTest_InitialPosition22S_MoveLeft_FinalPosition32E()
         {
-            IWorld world = GetDefault5x5World();
+            IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                    .WithWorld(world)
@@ -273,7 +245,7 @@ namespace MarsRover.Test
         [TestMethod]
         public void MarsRoverTest_InitialiPosition22E_MoveRight_FinalPosition21S()
         {
-            IWorld world = GetDefault5x5World();
+            IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                    .WithWorld(world)
@@ -291,7 +263,7 @@ namespace MarsRover.Test
         [TestMethod]
         public void MarsRoverTest_InitialiPosition22W_MoveRight_FinalPosition23N()
         {
-            IWorld world = GetDefault5x5World();
+            IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                    .WithWorld(world)
@@ -309,7 +281,7 @@ namespace MarsRover.Test
         [TestMethod]
         public void MarsRoverTest_InitialiPosition22N_MoveRight_FinalPosition32E()
         {
-            IWorld world = GetDefault5x5World();
+            IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                    .WithWorld(world)
@@ -327,7 +299,7 @@ namespace MarsRover.Test
         [TestMethod]
         public void MarsRoverTest_InitialiPosition22South_MoveRight_FinalPosition12W()
         {
-            IWorld world = GetDefault5x5World();
+            IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                    .WithWorld(world)
@@ -345,7 +317,7 @@ namespace MarsRover.Test
         [TestMethod]
         public void MarsRoverTest_TopEdgeMoveForward_RoverStepInBottomEdge()
         {
-            IWorld world = GetDefault5x5World();
+            IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                    .WithWorld(world)
@@ -361,7 +333,7 @@ namespace MarsRover.Test
         [TestMethod]
         public void MarsRoverTest_ButtomEdgeDirSouth_MoveForward_RoverStepInTopEdge()
         {
-            IWorld world = GetDefault5x5World();
+            IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                    .WithWorld(world)
@@ -376,7 +348,7 @@ namespace MarsRover.Test
         [TestMethod]
         public void MarsRoverTest_ButtomEdgeDirEast_Moveright_RoverStepInTopEdge()
         {
-            IWorld world = GetDefault5x5World();
+            IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                    .WithWorld(world)
@@ -391,7 +363,7 @@ namespace MarsRover.Test
         [TestMethod]
         public void MarsRoverTest_ButtomEdgeDirWest_MoveLeft_RoverStepInTopEdge()
         {
-            IWorld world = GetDefault5x5World();
+            IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                 .WithWorld(world)
@@ -406,7 +378,7 @@ namespace MarsRover.Test
         [TestMethod]
         public void MarsRoverTest_TopEdgeDirEast_MoveLeft_RoverStepInBottomEdge()
         {
-            IWorld world = GetDefault5x5World();
+            IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                 .WithWorld(world)
@@ -421,7 +393,7 @@ namespace MarsRover.Test
         [TestMethod]
         public void MarsRoverTest_TopEdgeDirWest_MoveRight_RoverStepInBottomEdge()
         {
-            IWorld world = GetDefault5x5World();
+            IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                 .WithWorld(world)
@@ -436,7 +408,7 @@ namespace MarsRover.Test
         [TestMethod]
         public void MarsRoverTest_LeftEdgeDirWest_MoveForward_RoverStepInRightEdge()
         {
-            IWorld world = GetDefault5x5World();
+            IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                 .WithWorld(world)
@@ -451,7 +423,7 @@ namespace MarsRover.Test
         [TestMethod]
         public void MarsRoverTest_RightEdgeDirEast_MoveForward_RoverStepInLeftEdge()
         {
-            IWorld world = GetDefault5x5World();
+            IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                 .WithWorld(world)
@@ -466,7 +438,7 @@ namespace MarsRover.Test
         [TestMethod]
         public void MarsRoverTest_LeftEdgeDirNorth_MoveLeft_RoverStepInRightEdge()
         {
-            IWorld world = GetDefault5x5World();
+            IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                 .WithWorld(world)
@@ -481,7 +453,7 @@ namespace MarsRover.Test
         [TestMethod]
         public void MarsRoverTest_LeftEdgeDirSouth_MoveRight_RoverStepInRightEdge()
         {
-            IWorld world = GetDefault5x5World();
+            IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                 .WithWorld(world)
@@ -496,7 +468,7 @@ namespace MarsRover.Test
         [TestMethod]
         public void MarsRoverTest_RightEdgeDirNorth_MoveRight_RoverStepInLeftEdge()
         {
-            IWorld world = GetDefault5x5World();
+            IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                 .WithWorld(world)
@@ -512,7 +484,7 @@ namespace MarsRover.Test
         [ExpectedException(typeof(Exception))]
         public void MarsRoverTest_MoveLeft_ObstacleEncountred()
         {
-            IWorld world = Get4x4WorldWithObstacles();
+            IWorld world = WorldBuilder.Get4x4WorldWithObstacles();
 
             Rover rover = new RoverBuilder()
                                 .WithWorld(world)
@@ -526,7 +498,7 @@ namespace MarsRover.Test
         [TestMethod]
         public void MarsRoverTest_InitialPosition11DirE_SendCommands_LFFR_FinalPosition_32E()
         {
-             IWorld world = GetDefault5x5World();
+             IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                 .WithWorld(world)
@@ -547,7 +519,7 @@ namespace MarsRover.Test
         [TestMethod]
          public void MarsRoverTest_InitialPosition11DirE_SendCommands_LRFFFF_FinalPosition_12E()
         {
-             IWorld world = GetDefault5x5World();
+             IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                 .WithWorld(world)
@@ -568,7 +540,7 @@ namespace MarsRover.Test
         [TestMethod]
          public void MarsRoverTest_InitialPosition11DirE_SendCommands_LRFFFFF_FinalPosition_12E()
         {
-             IWorld world = GetDefault5x5World();
+             IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                 .WithWorld(world)
@@ -589,7 +561,7 @@ namespace MarsRover.Test
         [TestMethod]
          public void MarsRoverTest_InitialPosition11DirE_SendCommands_LRFFFFFL_FinalPosition_13N()
         {
-             IWorld world = GetDefault5x5World();
+             IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                 .WithWorld(world)
@@ -610,7 +582,7 @@ namespace MarsRover.Test
         [TestMethod]
          public void MarsRoverTest_InitialPosition11DirE_SendCommands_LRFFFFFLR_FinalPosition_23E()
         {
-             IWorld world = GetDefault5x5World();
+             IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                 .WithWorld(world)
@@ -631,7 +603,7 @@ namespace MarsRover.Test
         [TestMethod]
          public void MarsRoverTest_InitialPosition11DirE_SendCommands_LRFFFFFLRL_FinalPosition_24N()
         {
-             IWorld world = GetDefault5x5World();
+             IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                 .WithWorld(world)
@@ -650,9 +622,9 @@ namespace MarsRover.Test
         }
 
         [TestMethod]
-         public void MarsRoverTest_InitialPosition11DirE_SendCommands_LRFFFFFLRLF_FinalPosition_20N()
+        public void MarsRoverTest_InitialPosition11DirE_SendCommands_LRFFFFFLRLF_FinalPosition_20N()
         {
-             IWorld world = GetDefault5x5World();
+             IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                 .WithWorld(world)
