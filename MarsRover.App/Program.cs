@@ -14,14 +14,14 @@ namespace MarsRover.App
                 for (int j = 0; j < 10; j++)
                 {
                     var r = new Random().Next(0, 10);
-                    mars[i, j] = (r > 8) ? "*" : "+";
+                    mars[j, i] = (r > 8) ? "*" : "+";
                 }
 
             for (int i = 0; i < 10; i++)
             {
                 for (int j = 0; j < 10; j++)
                 {
-                    Console.Write(mars[i, j]);
+                    Console.Write(mars[j, i]);
                 }
 
                 Console.WriteLine("");
@@ -133,7 +133,7 @@ namespace MarsRover.App
                         if (j == x && y == i)
                             Console.Write(dir);
                         else
-                            Console.Write(mars[i, j]);
+                            Console.Write(mars[j, i]);
                     }
 
                     Console.WriteLine("");

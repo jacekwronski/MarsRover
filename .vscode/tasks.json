@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/MarsRover.csproj"
+                "${workspaceFolder}/MarsRover.App/MarsRover.App.csproj"
             ],
             "problemMatcher": "$msCompile"
         }

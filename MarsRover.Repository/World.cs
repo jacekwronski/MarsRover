@@ -15,7 +15,7 @@ namespace MarsRover.Repository
 
         public int GetTopEdgeYCoordinates()
         {
-            return this.worldMatrix.GetLength(1);
+            return this.worldMatrix.GetLength(1) - 1;
         }
 
         public int GetBottomEdgeYCoordinates()
@@ -30,7 +30,7 @@ namespace MarsRover.Repository
 
         public int GetRightEdgeXCoordinates()
         {
-            return this.worldMatrix.GetLength(0);
+            return this.worldMatrix.GetLength(0) - 1;
         }
 
         public bool HasObstacleOnCoordinates(int x, int y)
