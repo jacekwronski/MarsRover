@@ -5,7 +5,7 @@ namespace MarsRover.Repository
 {
     public class World : IWorld
     {
-        string obstacleValue = "o";
+        string obstacleValue = "*";
         string[,] worldMatrix;
 
         public World(string[,] worldMatrix)
@@ -35,9 +35,9 @@ namespace MarsRover.Repository
 
         public bool HasObstacleOnCoordinates(int x, int y)
         {
-            y = (worldMatrix.GetLength(1) - 1) - 7;
+            y = (worldMatrix.GetLength(1) - 1) - y;
 
-            int value = worldMatrix[x][y];
+            string value = worldMatrix[x,y];
 
             return value == obstacleValue;
         }

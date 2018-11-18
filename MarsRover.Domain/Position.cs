@@ -14,5 +14,10 @@ namespace MarsRover.Domain
             this.Y = y;
             this.Direction = direction;
         }
+
+        public override string ToString()
+        {
+            return "X: " + X.ToString() + " Y: " + Y.ToString() + " Direction: " + Direction.ToString();
+        }
     }
 }
