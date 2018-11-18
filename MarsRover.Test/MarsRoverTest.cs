@@ -481,7 +481,7 @@ namespace MarsRover.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception))]
+        [ExpectedException(typeof(RoverException))]
         public void MarsRoverTest_MoveLeft_ObstacleEncountred()
         {
             IWorld world = WorldBuilder.Get4x4WorldWithObstacles();
@@ -624,7 +624,7 @@ namespace MarsRover.Test
         [TestMethod]
         public void MarsRoverTest_InitialPosition11DirE_SendCommands_LRFFFFFLRLF_FinalPosition_20N()
         {
-             IWorld world = WorldBuilder.GetDefault5x5World();
+            IWorld world = WorldBuilder.GetDefault5x5World();
 
             Rover rover = new RoverBuilder()
                                 .WithWorld(world)
@@ -640,6 +640,26 @@ namespace MarsRover.Test
             Assert.AreEqual(2, rover.Position.X);
             Assert.AreEqual(0, rover.Position.Y);
             Assert.AreEqual(DirectionEnum.North, rover.Position.Direction);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void MarsRoverTest_InitialPositionNotValidX_ExpectedArgumentException()
+        {
+             IWorld world = WorldBuilder.GetDefault5x5World();
+
+            Rover rover = new Rover();
+            rover.Initialize(-1, 1, DirectionEnum.North, world);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void MarsRoverTest_InitialPositionNotValidY_ExpectedArgumentException()
+        {
+             IWorld world = WorldBuilder.GetDefault5x5World();
+
+            Rover rover = new Rover();
+            rover.Initialize(1, -1, DirectionEnum.North, world);
         }
     }
 }

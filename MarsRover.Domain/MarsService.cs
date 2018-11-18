@@ -22,7 +22,6 @@ namespace MarsRover.Domain
         public Position MoveRover(string[] commands)
         {
             this.rover.Move(commands);
-
             return new Position(rover.Position.X, rover.Position.Y, rover.Position.Direction);
         }
     }

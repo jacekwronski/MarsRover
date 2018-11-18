@@ -46,8 +46,8 @@ namespace MarsRover.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception))]
-        public void MarsServiceTest_MoveRoverFFRRLLBB_Start23E_ObstacleDetected_ExpectedException()
+        [ExpectedException(typeof(RoverException))]
+        public void MarsServiceTest_MoveRover_Start_ObstacleDetected_ExpectedException()
         {
             IWorld world = WorldBuilder.Get4x4WorldWithObstacles();
             var marsService = Substitute.For<MarsService>(world);
@@ -56,6 +56,31 @@ namespace MarsRover.Test
             string[] commands = { "F", "L", "F" };
 
             Position position = marsService.MoveRover(commands);
+        }
+
+        [TestMethod]
+        public void MarsServiceTest_MoveRover_ObstacleDetected_LastPosition11N()
+        {
+            IWorld world = WorldBuilder.Get4x4WorldWithObstacles();
+            var marsService = Substitute.For<MarsService>(world);
+            marsService.LandRover(0, 0, DirectionEnum.East);
+
+            string[] commands = { "F", "L", "F" };
+
+            Position lastPosition = null;
+
+            try
+            {
+                Position position = marsService.MoveRover(commands);
+            }
+            catch(RoverException ex)
+            {
+                lastPosition = ex.LastPosition;
+            }
+
+            Assert.AreEqual(1, lastPosition.X);
+            Assert.AreEqual(1, lastPosition.Y);
+            Assert.AreEqual(DirectionEnum.North, lastPosition.Direction);
         }
     }
 }

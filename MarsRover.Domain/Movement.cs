@@ -3,16 +3,23 @@ using System.Collections.Generic;
 
 namespace MarsRover.Domain
 {
-    public class Movement
+    internal class Movement
     {
-        public readonly Dictionary<DirectionEnum, Dictionary<MovementEnum, Func<Position, Position>>> MovementsActuator;
+        private readonly Dictionary<DirectionEnum, Dictionary<MovementEnum, Func<Position, Position>>> MovementsActuator;
 
         private readonly Position position;
         private readonly MovementEnum movementType;
 
         private readonly IWorld world;
-        public Movement(Position position, MovementEnum movementType, IWorld world)
+        internal Movement(Position position, MovementEnum movementType, IWorld world)
         {
+            #region  Validazioni
+            if(position == null)
+                throw new ArgumentNullException(nameof(position));
+            if(world == null)
+                throw new ArgumentNullException(nameof(world));
+            #endregion
+
             this.position = position;
             this.movementType = movementType;
             this.world = world;
@@ -64,20 +71,25 @@ namespace MarsRover.Domain
         }
 
 
-        public Position Move()
+        internal Position Move()
         {
             Position newPosition = CalculatePositionByMovement(movementType, position);
             return newPosition;
         }
 
-        private Position CalculatePositionByMovement(MovementEnum movement, Position position)
+        internal Position CalculatePositionByMovement(MovementEnum movement, Position position)
         {
+            #region Validations
+            if(position == null)
+                throw new ArgumentNullException(nameof(position));
+            #endregion
+
             Position newPosition = null;
 
             if (MovementsActuator.ContainsKey(position.Direction) && MovementsActuator[position.Direction].ContainsKey(movement))
                 newPosition = MovementsActuator[position.Direction][movement].Invoke(position);
 
-            ValidateMove(newPosition.X, newPosition.Y);
+            ValidateMove(newPosition);
 
             return newPosition;
         }
@@ -92,10 +104,15 @@ namespace MarsRover.Domain
             return newPosition;
         }
 
-        private void ValidateMove(int x, int y)
+        private void ValidateMove(Position newPosition)
         {
-            if (this.world.HasObstacleOnCoordinates(x, y))
-                throw new System.Exception("Obstacle detected!!!!");
+            #region Validatios
+            if(newPosition == null)
+                throw new ArgumentNullException(nameof(newPosition));
+            #endregion
+
+            if (this.world.HasObstacleOnCoordinates(newPosition.X, newPosition.Y))
+                throw new RoverException("Obstacle detected!!!!", this.position);
         }
 
         private int RecalculateYEdges(int y)
