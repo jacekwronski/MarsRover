@@ -35,9 +35,12 @@ namespace MarsRover.Repository
 
         public bool HasObstacleOnCoordinates(int x, int y)
         {
+            /* Le coordinate hanno il punto 0,0 in basso a sinistra invece la matrice ha il punto 0,0 in alto a sinistra
+            per cui devo convertire la y */
+
             y = (worldMatrix.GetLength(1) - 1) - y;
 
-            string value = worldMatrix[x,y];
+            string value = worldMatrix[x, y];
 
             return value == obstacleValue;
         }
